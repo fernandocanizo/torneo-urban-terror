@@ -1,0 +1,12 @@
+{
+  "name": "torneo-uca",
+  "version": "1.0.0",
+  "description": "Sitio web de soporte del Torneo de UrbanTerror Cup Argentina",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Fernando L. Canizo <fernandocanizo@gmail.com>",
+  "license": "MIT"
+}
