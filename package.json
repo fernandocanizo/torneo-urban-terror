@@ -1,12 +1,26 @@
 {
-  "name": "torneo-uca",
+  "name": "torneo-urban-terror",
   "version": "1.0.0",
-  "description": "Sitio web de soporte del Torneo de UrbanTerror Cup Argentina",
+  "private": true,
+  "description": "Sitio web de soporte del Torneo de UrbanTerror Latinoamericano",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon tut.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Fernando L. Canizo <fernandocanizo@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "rfr": "^1.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
