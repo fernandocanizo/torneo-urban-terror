@@ -7,7 +7,6 @@ const postgres = {
 };
 
 postgres.url = `postgres://${postgres.user}:${postgres.password}@${postgres.host}:${postgres.port}/${postgres.db}`;
-postgres.devUrl = `${postgres.prodUrl}_dev`;
 
 
 module.exports = {
