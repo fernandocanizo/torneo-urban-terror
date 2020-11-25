@@ -4,7 +4,7 @@ const bcryptjs = require('bcryptjs');
 const baseModel = rfr('/app/db/models/baseModel');
 
 
-const bm = baseModel('users');
+const bm = baseModel('player');
 
 const getCost = () => {
   // This code will benchmark your server to determine how high of a cost
@@ -41,10 +41,10 @@ const hashPassword = async password => {
   return await bcryptjs.hash(password, saltLength);
 };
 
-const create = async (userData, transaction) => {
-  const aux = Object.assign({}, userData);
-  aux.password = await hashPassword(userData.password);
-  return await bm.insert(aux, transaction);
+const create = async (playerData, transaction) => {
+  const aux = Object.assign({}, playerData);
+  aux.password = await hashPassword(playerData.password);
+  return await bm.insert(aux, { transaction });
 };
 
 const changePassword = async ({ email, newPassword }) => {
@@ -59,23 +59,23 @@ const changePassword = async ({ email, newPassword }) => {
 };
 
 const checkPassword = async ({ email, password }) => {
-  const user = await bm
+  const player = await bm
     .getFirstBy({ email });
-  if (!user) {
+  if (!player) {
     return false;
   }
 
   const isValidPassword = await bcryptjs.compare(
     password,
-    user.password,
+    player.password,
   );
 
   if (isValidPassword) {
     return {
-      email: user.email,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      role: user.fk_role,
+      email: player.email,
+      firstName: player.first_name,
+      lastName: player.last_name,
+      role: player.fk_role,
     };
   } else {
     return false;

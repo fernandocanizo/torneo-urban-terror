@@ -46,13 +46,13 @@ exports.up = async knex => {
   `);
 
   await knex.raw(`
-    create table rel_user_team (
-      fk_user_id integer references player(id),
+    create table rel_player_team (
+      fk_player_id integer references player(id),
       fk_team_id integer references team(id),
       is_captain bool not null default false,
       is_subcaptain bool not null default false,
 
-      unique(fk_user_id, fk_team_id)
+      unique(fk_player_id, fk_team_id)
     )
   `);
 
@@ -121,7 +121,7 @@ exports.up = async knex => {
 };
 
 exports.down = async knex => {
-  await knex.raw(`drop table if exists rel_user_team`);
+  await knex.raw(`drop table if exists rel_player_team`);
   await knex.raw(`drop table if exists team`);
   await knex.raw(`drop table if exists player`);
   await knex.raw(`drop table if exists clan`);
