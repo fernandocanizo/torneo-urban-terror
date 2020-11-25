@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+  </head>
+  <body>
+    <h1>Por favor completá los siguientes datos para registrarte</h1>
+
+    <form action="/register-user" method="post">
+      <label for="web_nick"
+        title="Este alias es para uso del sitio y no es requerido">
+        Alias
+      </label>
+      <input type="text" name="name" id="web_nick">
+
+      <label for="auth_nick"
+        title="Este es el nick de auth en urbanterror.info">
+        Auth nick
+      </label>
+      <input type="text" name="auth_nick" id="auth_nick" required>
+
+      <label for="discord_nick">Usuario en Discord</label>
+      <input type="text" name="discord_nick" id="discord_nick" required>
+
+      <label for="email">Dirección de correo electrónico</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="password">Clave</label>
+      <input type="password" name="password" id="password" requires>
+
+      <input type="submit" value="Enviar">
+    </form>
+  </body>
+  <script src="./js/index.js"></script>
+</html>
+
