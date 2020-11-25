@@ -14,8 +14,10 @@ exports.up = async knex => {
       email citext not null,
       password varchar not null,
       created_at timestamp with time zone not null,
-      updated_at timestamp with time zone not null
-      )
+      updated_at timestamp with time zone not null,
+
+      unique(email)
+    )
   `);
 
   await knex.raw(`
@@ -24,16 +26,20 @@ exports.up = async knex => {
       name varchar not null,
       tag citext not null,
       created_at timestamp with time zone not null,
-      updated_at timestamp with time zone not null
-      )
+      updated_at timestamp with time zone not null,
+
+      unique(tag)
+    )
   `);
 
   await knex.raw(`
-  create table rel_user_team (
-    fk_user_id integer references users(id),
-    fk_team_id integer references teams(id),
-    is_captain bool not null default false,
-    is_subcaptain bool not null default false
+    create table rel_user_team (
+      fk_user_id integer references users(id),
+      fk_team_id integer references teams(id),
+      is_captain bool not null default false,
+      is_subcaptain bool not null default false,
+
+      unique(fk_user_id, fk_team_id)
     )
   `);
 
@@ -50,7 +56,7 @@ exports.up = async knex => {
         return new;
       end if;
     end;
-    $$ language 'plpgsql';
+    $$ language 'plpgsql'
   `);
 
   await knex.raw(`
@@ -60,30 +66,33 @@ exports.up = async knex => {
       new.updated_at = now();
       return new;
     end;
-    $$ language 'plpgsql';
+    $$ language 'plpgsql'
   `);
 
   // add creation and updating triggers
   await knex.raw(`
     create trigger make_users_creation_time
     before insert on users
-    for each row execute function make_created_at_column();
+    for each row execute function make_created_at_column()
+  `);
 
+  await knex.raw(`
     create trigger make_teams_creation_time
     before insert on teams
-    for each row execute function make_created_at_column();
+    for each row execute function make_created_at_column()
   `);
 
   await knex.raw(`
     create trigger make_users_update_time
     before update on users
-    for each row execute function make_updated_at_column();
-
-    create trigger make_teams_update_time
-    before update on teams
-    for each row execute function make_updated_at_column();
+    for each row execute function make_updated_at_column()
   `);
 
+  await knex.raw(`
+    create trigger make_teams_update_time
+    before update on teams
+    for each row execute function make_updated_at_column()
+  `);
 };
 
 exports.down = async knex => {
