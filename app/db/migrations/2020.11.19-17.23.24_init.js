@@ -6,13 +6,26 @@ exports.up = async knex => {
   await knex.raw(`create extension if not exists citext`);
 
   await knex.raw(`
-    create table if not exists users (
+    create table if not exists clan (
+      id serial primary key,
+      name varchar not null,
+      tag varchar(10) not null,
+      created_at timestamp with time zone not null,
+      updated_at timestamp with time zone not null,
+
+      unique(tag)
+    )
+  `);
+
+  await knex.raw(`
+    create table if not exists player (
       id serial primary key,
       web_nick citext not null default '',
       auth_nick varchar not null,
       discord_nick varchar not null,
       email citext not null,
       password varchar not null,
+      fk_clan_id integer references player(id),
       created_at timestamp with time zone not null,
       updated_at timestamp with time zone not null,
 
@@ -21,10 +34,10 @@ exports.up = async knex => {
   `);
 
   await knex.raw(`
-    create table if not exists teams (
+    create table if not exists team (
       id serial primary key,
       name varchar not null,
-      tag citext not null,
+      tag varchar(10) not null,
       created_at timestamp with time zone not null,
       updated_at timestamp with time zone not null,
 
@@ -34,8 +47,8 @@ exports.up = async knex => {
 
   await knex.raw(`
     create table rel_user_team (
-      fk_user_id integer references users(id),
-      fk_team_id integer references teams(id),
+      fk_user_id integer references player(id),
+      fk_team_id integer references team(id),
       is_captain bool not null default false,
       is_subcaptain bool not null default false,
 
@@ -71,34 +84,47 @@ exports.up = async knex => {
 
   // add creation and updating triggers
   await knex.raw(`
-    create trigger make_users_creation_time
-    before insert on users
+    create trigger make_clan_creation_time
+    before insert on clan
     for each row execute function make_created_at_column()
   `);
 
   await knex.raw(`
-    create trigger make_teams_creation_time
-    before insert on teams
+    create trigger make_player_creation_time
+    before insert on player
     for each row execute function make_created_at_column()
   `);
 
   await knex.raw(`
-    create trigger make_users_update_time
-    before update on users
+    create trigger make_team_creation_time
+    before insert on team
+    for each row execute function make_created_at_column()
+  `);
+
+  await knex.raw(`
+    create trigger make_clan_update_time
+    before update on clan
     for each row execute function make_updated_at_column()
   `);
 
   await knex.raw(`
-    create trigger make_teams_update_time
-    before update on teams
+    create trigger make_player_update_time
+    before update on player
+    for each row execute function make_updated_at_column()
+  `);
+
+  await knex.raw(`
+    create trigger make_team_update_time
+    before update on team
     for each row execute function make_updated_at_column()
   `);
 };
 
 exports.down = async knex => {
   await knex.raw(`drop table if exists rel_user_team`);
-  await knex.raw(`drop table if exists teams`);
-  await knex.raw(`drop table if exists users`);
+  await knex.raw(`drop table if exists team`);
+  await knex.raw(`drop table if exists player`);
+  await knex.raw(`drop table if exists clan`);
   await knex.raw(`drop function make_created_at_column() cascade`);
   await knex.raw(`drop function make_updated_at_column() cascade`);
   await knex.raw(`drop extension if exists unaccent`);
