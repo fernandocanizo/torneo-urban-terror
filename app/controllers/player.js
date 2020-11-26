@@ -28,15 +28,11 @@ const register = async (req, res) => {
   try {
     await knex.transaction(async transaction => {
       const dbClan = await Clan.getFirstBy({ tag: clanData.tag }, { transaction });
-      console.debug('>>> dbClan', dbClan);
       if (!dbClan) {
-        console.debug('>>> if');
         const [ clanInserted ] = await Clan.insert(clanData, { transaction });
         playerData.fk_clan_id = clanInserted.id;
-        console.debug('>>> clanInserted if', playerData.fk_clan_id);
         await Player.create(playerData, { transaction });
       } else {
-        console.debug('>>> else');
         playerData.fk_clan_id = dbClan.id;
         await Player.create(playerData, { transaction });
       }
@@ -59,13 +55,13 @@ const login = async (req, res) => {
     const user = await Player.getFirstBy({ email });
     if (!user) {
       console.debug(`No se encuentra el mail ${email}`);
-      return res.status(401).send('Error en la combinación usuario/contraseña');
+      return res.status(401).send('Usuario no registrado');
     }
 
     const isValidPassword = await bcryptjs.compare(password, user.password);
     if (!isValidPassword) {
       console.debug(`Contraseña incorrecta del usuario ${email}`);
-      return res.status(401).send('Error en la combinación usuario/contraseña');
+      return res.status(401).send('Contraseña incorrecta');
     }
 
     console.debug(`Login correcto ${email}`);
@@ -82,8 +78,12 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  return res.cookie('token', 'invalid_token', { httpOnly: true }).status(200).redirect('/');
+  return res
+    .status(200)
+    .cookie('token', 'invalid_token', { httpOnly: true })
+    .redirect('/');
 };
+
 
 module.exports = {
   register,
