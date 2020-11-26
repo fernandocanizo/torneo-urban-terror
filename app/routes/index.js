@@ -11,6 +11,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: siteTitle });
 });
 
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Login' });
+});
+
+router.post('/login', player.login);
 router.get('/register', (req, res) => {
   res.render('register', { title: siteTitle });
 });

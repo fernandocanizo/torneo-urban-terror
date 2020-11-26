@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/header'); -%>
+  <body>
+    <h1>Iniciá sesión</h1>
+
+    <form action="/login" method="post">
+      <label for="email">Dirección de correo electrónico</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="password">Clave</label>
+      <input type="password" name="password" id="password" required>
+
+      <input type="submit" value="Enviar">
+    </form>
+  </body>
+  <%- include('partials/footer'); -%>
+</html>

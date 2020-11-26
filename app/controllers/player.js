@@ -1,8 +1,13 @@
+const config = require('config');
 const rfr = require('rfr');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const knex = rfr('/app/db/knex');
-const Player = rfr('/app/db/models/player.js');
-const Clan = rfr('/app/db/models/clan.js');
+const Player = rfr('/app/db/models/player');
+const Clan = rfr('/app/db/models/clan');
+
+const secret = config.get('login.secret');
 
 
 const register = async (req, res) => {
@@ -47,6 +52,36 @@ const register = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await Player.getFirstBy({ email });
+    if (!user) {
+      console.debug(`No se encuentra el mail ${email}`);
+      return res.status(401).send('Error en la combinación usuario/contraseña');
+    }
+
+    const isValidPassword = await bcryptjs.compare(password, user.password);
+    if (!isValidPassword) {
+      console.debug(`Contraseña incorrecta del usuario ${email}`);
+      return res.status(401).send('Error en la combinación usuario/contraseña');
+    }
+
+    console.debug(`Login correcto ${email}`);
+    delete user.password;
+
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn: '1d' });
+    res.cookie('token', token, { httpOnly: true })
+
+    return res.status(200).redirect('/view-authenticated');
+  } catch (e) {
+    console.debug(e);
+    res.status(500).send('Falló el login de usuario');
+  }
+};
+
 module.exports = {
   register,
+  login,
 };

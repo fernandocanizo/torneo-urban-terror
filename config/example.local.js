@@ -11,4 +11,7 @@ postgres.url = `postgres://${postgres.user}:${postgres.password}@${postgres.host
 
 module.exports = {
   postgres,
+  login: {
+    secret: 'debería ser más seguro',
+  },
 };
