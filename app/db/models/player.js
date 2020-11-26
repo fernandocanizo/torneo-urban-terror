@@ -41,7 +41,7 @@ const hashPassword = async password => {
   return await bcryptjs.hash(password, saltLength);
 };
 
-const create = async (playerData, transaction) => {
+const create = async (playerData, { transaction }) => {
   const aux = Object.assign({}, playerData);
   aux.password = await hashPassword(playerData.password);
   return await bm.insert(aux, { transaction });

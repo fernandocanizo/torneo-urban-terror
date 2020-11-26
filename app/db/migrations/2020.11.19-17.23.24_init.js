@@ -25,7 +25,7 @@ exports.up = async knex => {
       discord_nick varchar not null,
       email citext not null,
       password varchar not null,
-      fk_clan_id integer references clan(id),
+      fk_clan_id integer references clan(id) not null,
       created_at timestamp with time zone not null,
       updated_at timestamp with time zone not null,
 

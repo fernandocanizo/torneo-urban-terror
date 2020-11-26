@@ -21,21 +21,19 @@ const register = async (req, res) => {
   };
 
   try {
-    let clanId;
     await knex.transaction(async transaction => {
-      clanId = await Clan.findBy({ tag: clanData.tag }, { transaction });
-      console.debug('>>> clanId', clanId);
-      if (0 === clanId.length) {
+      const dbClan = await Clan.getFirstBy({ tag: clanData.tag }, { transaction });
+      console.debug('>>> dbClan', dbClan);
+      if (!dbClan) {
         console.debug('>>> if');
-        clanId = await Clan.insert(clanData, { transaction });
-        playerData.fk_clan_id = clanId[0].id;
-        console.debug('>>> clanId if', playerData.fk_clan_id);
-        await Player.insert(playerData, { transaction });
+        const [ clanInserted ] = await Clan.insert(clanData, { transaction });
+        playerData.fk_clan_id = clanInserted.id;
+        console.debug('>>> clanInserted if', playerData.fk_clan_id);
+        await Player.create(playerData, { transaction });
       } else {
         console.debug('>>> else');
-        // TODO replace insert by create and move this logic into model
-        playerData.fk_clan_id = clanId[0];
-        await Player.insert(playerData, { transaction });
+        playerData.fk_clan_id = dbClan.id;
+        await Player.create(playerData, { transaction });
       }
     });
 
