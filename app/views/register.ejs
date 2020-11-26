@@ -7,7 +7,7 @@
   <body>
     <h1>Por favor completá los siguientes datos para registrarte</h1>
 
-    <form action="/register-user" method="post">
+    <form action="/register-player" method="post">
       <label for="web_nick"
         title="Este alias es para uso del sitio y no es requerido">
         Alias
@@ -23,11 +23,17 @@
       <label for="discord_nick">Usuario en Discord</label>
       <input type="text" name="discord_nick" id="discord_nick" required>
 
+      <label for="clan_name">Nombre del clan</label>
+      <input type="text" name="clan_name" id="clan_name" required>
+
+      <label for="clan_tag">Tag de clan (sin signos, solo letras)</label>
+      <input type="text" name="clan_tag" id="clan_tag" maxlength="10" pattern="[A-Za-z0-9]+" required>
+
       <label for="email">Dirección de correo electrónico</label>
       <input type="email" name="email" id="email" required>
 
       <label for="password">Clave</label>
-      <input type="password" name="password" id="password" requires>
+      <input type="password" name="password" id="password" required>
 
       <input type="submit" value="Enviar">
     </form>
