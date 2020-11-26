@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/header'); -%>
+  <body>
+    <p>Jugador autenticado</p>
+    <%= player.email %> - <%= player.web_nick %> - <%= player.auth_nick %>
+    <form action="/logout" method="post">
+      <input type="submit" value="Cerrar Sesión">
+    </form>
+  </body>
+  <%- include('partials/footer'); -%>
+</html>
