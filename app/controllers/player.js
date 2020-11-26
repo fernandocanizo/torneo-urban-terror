@@ -81,7 +81,12 @@ const login = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  return res.cookie('token', 'invalid_token', { httpOnly: true }).status(200).redirect('/');
+};
+
 module.exports = {
   register,
   login,
+  logout,
 };

@@ -16,6 +16,8 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', player.login);
+router.post('/logout', player.logout);
+
 router.get('/register', (req, res) => {
   res.render('register', { title: siteTitle });
 });
