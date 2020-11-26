@@ -1,7 +1,10 @@
+const rfr = require('rfr');
 const express = require('express');
+
+const player = rfr('/app/controllers/player.js');
+
+
 const router = express.Router();
-
-
 const siteTitle = 'Torneo Urban Terror Latinoamericano';
 
 router.get('/', function(req, res, next) {
@@ -12,9 +15,7 @@ router.get('/register', (req, res) => {
   res.render('register', { title: siteTitle });
 });
 
-router.post('/register-user', (req, res) => {
-  console.log(req.body);
-  res.send('No implementado');
-});
+router.post('/register-player', player.register);
+
 
 module.exports = router;
