@@ -1,41 +1,65 @@
-<!DOCTYPE html>
-<html>
-  <%- include('partials/header'); -%>
-  <body>
-    <h1>Por favor completá los siguientes datos para registrarte</h1>
+<%- include('partials/header'); %>
+<body>
+  <%- include('partials/navbar'); %>
 
-    <form action="/register-player" method="post">
-      <label for="web_nick"
-        title="Este alias es para uso del sitio y no es requerido">
-        Alias
-      </label>
-      <input type="text" name="web_nick" id="web_nick">
+  <main role="main" class="flex-shrink-0">
+    <div class="container">
+      <h1 class="mt-5">Registro de jugador</h1>
+      <p class="lead">
+        Por favor completá los siguientes datos para registrarte:
+      </p>
 
-      <label for="auth_nick"
-        title="Este es el nick de auth en urbanterror.info">
-        Auth nick
-      </label>
-      <input type="text" name="auth_nick" id="auth_nick" required>
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label for="web_nick"
+            title="Este alias es para uso del sitio y no es requerido">
+            Alias
+          </label>
+          <input type="text" name="web_nick" id="web_nick" class="form-control">
+        </div>
 
-      <label for="discord_nick">Usuario en Discord</label>
-      <input type="text" name="discord_nick" id="discord_nick" required>
+        <div class="form-group">
+          <label for="auth_nick"
+            title="Este es el nick de auth en urbanterror.info">
+            Auth nick
+          </label>
+          <input type="text" name="auth_nick" id="auth_nick" class="form-control" required>
+        </div>
 
-      <label for="clan_name">Nombre del clan</label>
-      <input type="text" name="clan_name" id="clan_name" required>
+        <div class="form-group">
+          <label for="discord_nick">Usuario en Discord</label>
+          <input type="text" name="discord_nick" id="discord_nick" class="form-control" required>
+        </div>
 
-      <label for="clan_tag">Tag de clan (sin signos, solo letras)</label>
-      <input type="text" name="clan_tag" id="clan_tag" maxlength="10" pattern="[A-Za-z0-9]+" required>
+        <div class="form-group">
+          <label for="clan_name">Nombre del clan</label>
+          <input type="text" name="clan_name" id="clan_name" class="form-control" required>
+        </div>
 
-      <label for="email">Dirección de correo electrónico</label>
-      <input type="email" name="email" id="email" required>
+        <div class="form-group">
+          <label for="clan_tag">Tag de clan (sin signos, solo letras)</label>
+          <input type="text" name="clan_tag" id="clan_tag" maxlength="10" pattern="[A-Za-z0-9]+"
+            class="form-control" required>
+        </div>
 
-      <label for="password">Clave</label>
-      <input type="password" name="password" id="password" required>
+        <div class="form-group">
+          <label for="email">Dirección de correo electrónico</label>
+          <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" required>
+          <small id="emailHelp" class="form-text text-muted">
+            Tu dirección de correo es solo para propósitos de registro y recuperación de clave. No será compartida ni abusada.
+          </small>
+        </div>
 
-      <input type="submit" value="Enviar">
-    </form>
-  </body>
+        <div class="form-group">
+          <label for="password">Clave</label>
+          <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Enviar">
+      </form>
+    </body>
+
+    </div>
+  </main>
+</body>
   <%- include('partials/footer'); -%>
-  <script src="./js/index.js"></script>
-</html>
-

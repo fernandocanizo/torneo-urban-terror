@@ -34,10 +34,13 @@ router.post('/login', player.login);
 router.post('/logout', player.logout);
 
 router.get('/register', (req, res) => {
-  res.render('register', { title: 'Registro' });
+  res.render('register', {
+    title: 'Registro',
+    player: req.playerData,
+  });
 });
 
-router.post('/register-player', player.register);
+router.post('/register', player.register);
 
 // con autenticación
 router.get('/view-authenticated', (req, res) => {
