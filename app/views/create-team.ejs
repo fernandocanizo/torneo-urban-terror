@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/header'); -%>
+  <body>
+    <h1><%= title %></h1>
+
+
+    <form action="/team/create" method="post">
+      <label for="team_name">Nombre del equipo</label>
+      <input type="text" name="team_name" id="team_name" required>
+
+      <label for="team_tag">Tag del equipo (sin signos, solo letras)</label>
+      <input type="text" name="team_tag" id="team_tag" maxlength="10" pattern="[A-Za-z0-9]+" required>
+
+      <table border="1">
+        <tr>
+          <th>Agregar al equipo</th>
+          <th>Web Nick</th>
+          <th>UrT Auth Nick</th>
+          <th>Subcapitán</th>
+        </tr>
+        <% players.forEach(player => { %>
+          <%- include('partials/player', { player }); %>
+        <% }); %>
+        </table>
+
+      <input type="submit" name="submit" value="Crear equipo">
+    </form>
+  </body>
+  <%- include('./partials/footer'); -%>
+</html>
+

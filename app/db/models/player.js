@@ -82,10 +82,28 @@ const checkPassword = async ({ email, password }) => {
   }
 };
 
+const getAllClanMates = async playerId => {
+  try {
+    const players = await bm.knex.raw(`
+      select
+        pla.id,
+        pla.web_nick,
+        pla.auth_nick
+      from player pla join clan
+        on pla.fk_clan_id = :playerId
+      `, { playerId });
+    return players.rows;
+  } catch (e) {
+    console.debug(e);
+    throw e;
+  }
+};
+
 
 module.exports = {
   ...bm,
   create,
   changePassword,
   checkPassword,
+  getAllClanMates,
 };
