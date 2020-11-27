@@ -11,6 +11,7 @@ const sendResponse = (url, res) => res.status(401).redirect('/');
 
 const urlExceptions = [
   '/',
+  '/rules',
   '/register',
   '/register-player',
   '/login',

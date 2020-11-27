@@ -13,7 +13,17 @@ router.use('*', verifyJwt);
 // sin autenticación
 // TODO: redireccionar a pagina con autenticación en caso de entrar autenticado a estás rutas
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Inicio' });
+  res.render('index', {
+    title: 'Inicio',
+    player: req.playerData,
+  });
+});
+
+router.get('/rules', (req, res) => {
+  res.render('rules', {
+    title: 'Reglas',
+    player: req.playerData,
+  });
 });
 
 router.get('/login', function(req, res, next) {
