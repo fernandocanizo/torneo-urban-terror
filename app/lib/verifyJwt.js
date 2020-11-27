@@ -18,7 +18,6 @@ const urlExceptions = [
 ];
 
 const verifyJwt = (req, res, next) => {
-  console.log('---->', req.originalUrl)
   if (urlExceptions.find(url => url === req.originalUrl.replace(/(.+)\/$/, '$1'))) {
     console.debug(`${req.originalUrl} doesn't need authentication`);
     return next();
