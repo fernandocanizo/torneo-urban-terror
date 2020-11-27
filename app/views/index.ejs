@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <%- include('partials/header'); -%>
-  <body>
-    <h1><%= title %></h1>
+<%- include('partials/header'); %>
+<body>
+  <%- include('partials/navbar'); %>
 
-    <a href="/login">Iniciar sesión</a>
-    <a href="/register">Register</a>
-    <a href="/team/create">Crear Equipo</a>
-  </body>
+  <main role="main" class="flex-shrink-0">
+    <div class="container">
+      <h1 class="mt-5">Bienvenido al sitio de la Copa Latina de UrbanTerror</h1>
+      <p class="lead">
+        En este sitio podrás registrarte como jugador, crear tu equipo una vez
+        que los jugadores que lo conforman se encuentren registrados y ver como
+        estan conformados los otros equipos participantes.
+
+        Recordá leer las reglas antes de registrarte.
+      </p>
+    </div>
+  </main>
+</body>
   <%- include('partials/footer'); -%>
-</html>

@@ -1,0 +1,45 @@
+<header>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#" title="Copa Latina UrT">CLU</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarCollapse" aria-controls="navbarCollapse"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/rules">Reglas <span class="sr-only">(current)</span></a>
+        </li>
+
+      <% if(player) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/team/create">
+            Crear Equipo
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/player/profile" disabled tabindex="-1" aria-disabled="true">
+            Perfil
+          </a>
+        </li>
+      </ul>
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Registro</a>
+        </li>
+      </ul>
+
+      <form class="form-inline mt-2 mt-md-0">
+        <input class="form-control mr-sm-2" type="text" name="web_nick" placeholder="web nick" aria-label="Login">
+        <input class="form-control mr-sm-2" type="password" name="password" aria-label="Password">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+      </form>
+      <% } %>
+    </div>
+  </nav>
+</header>
+
