@@ -2,12 +2,13 @@ const rfr = require('rfr');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const logger = rfr('/app/lib/logger');
 const Player = rfr('/app/db/models/player');
+
 
 const secret = config.get('login.secret');
 
-
-const sendResponse = (url, res) => res.status(401).redirect('/');
+const send401 = res => res.status(401).redirect('/');
 
 const urlExceptions = [
   '/',
@@ -18,9 +19,12 @@ const urlExceptions = [
   '/logout',
 ];
 
+
 const verifyJwt = (req, res, next) => {
-  if (urlExceptions.find(url => url === req.originalUrl.replace(/(.+)\/$/, '$1'))) {
-    console.debug(`${req.originalUrl} doesn't need authentication`);
+  const checkUrl = url => url === req.originalUrl.replace(/(.+)\/$/, '$1');
+
+  if (urlExceptions.some(checkUrl)) {
+    logger.debug(`"${req.originalUrl}" doesn't need authentication`);
     return next();
   }
 
@@ -31,22 +35,25 @@ const verifyJwt = (req, res, next) => {
     req.cookies.token;
 
   if (!token) {
-    sendResponse(req.originalUrl, res);
+    send401(res);
+    logger.debug('no token');
   } else {
     jwt.verify(token, secret, async (err, decoded) => {
       if (err) {
-        console.error(err);
-        sendResponse(req.originalUrl, res);
+        logger.error(err);
+        send401(res);
       } else {
-        const { password, ...player } = await Player.getFirstBy({ id: decoded.id })
+        const { password, ...player } = await Player.getFirstBy({
+          id: decoded.id,
+        });
+
         try {
-          req.playerData = {
-            ...player,
-          };
+          logger.debug('got player');
+          req.playerData = { ...player };
           return next();
         } catch (e) {
           logger.error(e);
-          return sendResponse(req.originalUrl, res);
+          return send401(res);
         }
       }
     });
